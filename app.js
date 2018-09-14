@@ -67,7 +67,63 @@ console.log(filteredArray);
 // Użyjemy yargs do tego, bo przekazywanie i parsowanie tych parametrów typu title itd. bedzie dużo łatwiejsze
 // w consoli możemy przekaż title np. jako title="tytuł" lub title "tytuł", obie wersje są poprawne, ale obie troche ianczej działają
 // dlatego użyejmu yargs, który poradzi sobie z każdą opcją.
-const argv = yargs.argv;
+// const argv = yargs.argv;
+// Tutaj (poniżej) ulepszymy nasz interface w konsoli.
+// w .command, peirwszy argument to nazwa komendy wpisanej do consoli, drufi argment to jej opis
+// póżniej w obiekcie masz odpowiednie aprametry które są wpisywane w konkretnej komendzie np "add"
+// describe- opis, demand - czy jest wymagane, alias - skróty(więc wpisujać titile nie musisz wpisywać --title, tylko samo -t, jak w alias)
+// .help() - metoda, która zwróci kilka użytecznych informacji wywołąmy ją w konsoli za pomocą '--help"
+
+const titleOptions = {
+	describe: 'Title of note',
+	demand: true,
+	alias: 't'	
+}
+
+const bodyOptions = {
+	describe: 'Body of note',
+	demand: true,
+	alias: 'b'
+}
+
+const argv = yargs
+	.command('add', 'Add a new note', {
+		title: titleOptions,
+		body: bodyOptions
+		// powyżej, żeby nie powtarzać kodu zapisaliśmy całośc w zmiennych titleOption i bodyOptions 
+		// title: {
+		// 	describe: 'Title of note',
+		// 	demand: true,
+		// 	alias: 't'
+		// },
+		// body: {
+		// 	describe: 'Body of note',
+		// 	demand: true,
+		// 	alias: 'b'
+		// }
+	})
+	.command('list', 'List all notes')
+	.command('read', "Read a note", {
+		title: titleOptions,
+		// powyżej, żeby nie powtarzać kodu zapisaliśmy całośc w zmiennych titleOption i bodyOptions 
+		// title: {
+		// 	describe: 'Title of note',
+		// 	demnd: true,
+		// 	alias: 't'
+		// },
+	})
+	.command('remove', "Remove a note", {
+		title: titleOptions,
+		// powyżej, żeby nie powtarzać kodu zapisaliśmy całośc w zmiennych titleOption i bodyOptions 
+		// title: {
+		// 	describe: 'Title of note',
+		// 	demnd: true,
+		// 	alias: 't'
+		// },
+	})
+	.help()
+	.argv;
+
 
 // process - to obiekt globalny w node (coś jak window)
 // process.argv, to coś jak argument w js, jeśli w consoli wpiszesz node app.js chuj, to chuj będzie nowym argmentem dostepnym w process.argv
